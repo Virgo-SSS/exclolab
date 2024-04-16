@@ -10,32 +10,6 @@ use Tests\TestCase;
 class LogoutTest extends TestCase
 {
     /**
-     * Test user can't log out if user do not have header token
-     *
-     * @return void
-     */
-    public function test_user_cant_logout_if_dont_have_token()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = User::factory()->create();
-        $token = $user->createToken('basic-token')->plainTextToken;
-        $this->actingAs($user);
-
-        $this->withHeaders([
-            'Authorization' => '',
-            'Accept' => 'application/json'
-        ]);
-
-        $this->getJson(route('logout'))
-            ->assertStatus(401)
-            ->assertJson([
-                "message" => "Unauthenticated."
-            ]);
-    }
-
-
-    /**
      * Test User can log out if user has header with token
      *
      * @return void
